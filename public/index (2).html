@@ -104,6 +104,7 @@ input[type=number]:focus{border-color:var(--bl)}
 .msgx{font-size:14px;margin-top:8px;font-weight:600}
 .akin{width:100%;box-sizing:border-box;padding:11px;border:1.5px solid var(--bd);border-radius:12px;margin-bottom:10px;font:inherit;outline:0}
 .akin:focus{border-color:var(--bl)}
+@media (min-width:900px){.w{max-width:760px;padding-top:44px}.card{padding:32px 30px}.card h2{font-size:25px;margin-bottom:22px}.o{padding:15px 20px;font-size:18px;border-radius:16px}.o span{width:34px;height:34px}.hero{padding:34px 28px}.top{font-size:15px}}
 </style>
 </head>
 <body>
@@ -114,6 +115,7 @@ input[type=number]:focus{border-color:var(--bl)}
  <div class="rsb" id="rsb" hidden></div>
  <div class="panel">
   <div class="seg" id="sc" style="margin-bottom:14px"><button data-v="srv" id="svb" disabled>📚 অ্যাপের তালিকা</button><button data-v="own" class="on">✏️ নিজের তালিকা</button></div>
+  <div class="msgx" id="svst" style="color:var(--mut);margin:-6px 0 12px"></div>
   <div class="srvinfo" id="srvinfo" hidden></div>
   <div id="ownbox">
   <div class="ph"><span>তোমার বাগধারা তালিকা</span><span class="pill" id="pill">০টি</span></div>
@@ -141,7 +143,6 @@ input[type=number]:focus{border-color:var(--bl)}
  <textarea id="at" placeholder="অকুল পাথার = ভীষণ বিপদ"></textarea>
  <div style="display:flex;gap:10px;margin-top:12px"><button class="b" id="asv">সার্ভারে সেভ করো</button><button class="b g" id="acl">বন্ধ করো</button></div>
  <div id="amsg" class="msgx"></div>
-</div>
 </div>
 <div id="exam" hidden></div>
 </div>
@@ -180,8 +181,8 @@ function bump(w,r){const t=getStats();t[w]=Math.max(0,(t[w]||0)+(r?-1:2));try{lo
 function wk(){const t=getStats(),k=parse(T()).filter(x=>t[x.w]>0).length;$('wkb').textContent='শুধু দুর্বল ('+bn(k)+')'}
 document.querySelectorAll('.seg').forEach(g=>g.onclick=e=>{const t=e.target.closest('button');if(!t)return;g.querySelectorAll('button').forEach(b=>b.classList.toggle('on',b===t));if(g.id==='sm')mode=t.dataset.v;else if(g.id==='sc')setSrc(t.dataset.v);else poolm=t.dataset.v});
 function setSrc(v){srcm=v;document.querySelectorAll('#sc button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));$('ownbox').hidden=v==='srv';$('srvinfo').hidden=v!=='srv';live()}
-function afterSrv(first){const ok=parse(srvText).length>=4;$('svb').disabled=!ok;if(ok&&first)setSrc('srv');else if(!ok&&srcm==='srv')setSrc('own');else live()}
-async function loadSrv(first){try{const r=await fetch('/api/bagdhara',{cache:'no-store'});if(r.ok){const d=await r.json();srvText=d.text||''}}catch(e){}afterSrv(first)}
+function afterSrv(first,st){const ok=parse(srvText).length>=4;$('svst').textContent=st==='err'?'⚠️ অ্যাপের তালিকা আনা যাচ্ছে না (সার্ভার ফাংশন চালু নেই)।':ok?'':'ℹ️ অ্যাপের তালিকা এখনো খালি, তাই এই বাটন বন্ধ। সেভ করলে চালু হবে।';$('svb').disabled=!ok;if(ok&&first)setSrc('srv');else if(!ok&&srcm==='srv')setSrc('own');else live()}
+async function loadSrv(first){let st='ok';try{const r=await fetch('/api/bagdhara',{cache:'no-store'});if(!r.ok)throw 0;const d=await r.json();srvText=d.text||''}catch(e){st='err'}afterSrv(first,st)}
 loadSrv(true);
 async function openAdm(){await loadSrv(false);$('adm').hidden=false;$('at').value=srvText;$('apill').textContent=bn(parse(srvText).length)+'টি';try{$('ak').value=localStorage.getItem('bagdhara_ak')||''}catch(x){}$('adm').scrollIntoView({behavior:'smooth'})}
 if(location.hash==='#admin')openAdm();
@@ -195,6 +196,9 @@ $('asv').onclick=async()=>{const m=$('amsg');m.style.color='var(--mut)';m.textCo
     srvText=$('at').value;try{localStorage.setItem('bagdhara_ak',$('ak').value)}catch(x){}
     m.style.color='var(--gr)';m.textContent='✓ সার্ভারে সেভ হয়েছে।';afterSrv(false)}
   catch(x){m.style.color='var(--rd)';m.textContent='সেভ হয়নি। সার্ভার চালু আছে কি না দেখো।'}};
+document.addEventListener('keydown',e=>{if(/TEXTAREA|INPUT/.test(e.target.tagName)||$('exam').hidden)return;
+  if(ans<0&&'1234'.includes(e.key)){const b=document.querySelector('.o[data-o="'+(+e.key-1)+'"]');if(b)b.click()}
+  else if(ans>=0&&(e.key==='Enter'||e.key===' '||e.key==='ArrowRight')){const n=$('next');if(n){e.preventDefault();n.click()}}});
 function banner(){const b=$('rsb');if(!qs.length||i>=qs.length||$('setup').hidden){b.hidden=true;return}
   b.hidden=false;b.innerHTML=`<span>⏸ পরীক্ষা বিরতিতে: ${bn(i+(ans>=0?1:0))} / ${bn(qs.length)} শেষ</span><button class="b" id="rsm">চালিয়ে যাও →</button>`;
   $('rsm').onclick=()=>{b.hidden=true;$('setup').hidden=true;$('exam').hidden=false;show();scrollTo(0,0)}}
