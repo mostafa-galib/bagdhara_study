@@ -135,7 +135,6 @@ input[type=number]:focus{border-color:var(--bl)}
   <div id="err" class="err"></div>
  </div>
 </div>
-<p class="hint" style="text-align:center;margin-top:18px"><a href="#" id="adl" style="color:var(--mut)">⚙ অ্যাডমিন</a></p>
 <div class="panel" id="adm" hidden>
  <div class="ph"><span>⚙ সার্ভারের তালিকা</span><span class="pill" id="apill">০টি</span></div>
  <input type="password" class="akin" id="ak" placeholder="অ্যাডমিন পাসওয়ার্ড">
@@ -184,9 +183,11 @@ function setSrc(v){srcm=v;document.querySelectorAll('#sc button').forEach(b=>b.c
 function afterSrv(first){const ok=parse(srvText).length>=4;$('svb').disabled=!ok;if(ok&&first)setSrc('srv');else if(!ok&&srcm==='srv')setSrc('own');else live()}
 async function loadSrv(first){try{const r=await fetch('/api/bagdhara',{cache:'no-store'});if(r.ok){const d=await r.json();srvText=d.text||''}}catch(e){}afterSrv(first)}
 loadSrv(true);
-$('adl').onclick=async e=>{e.preventDefault();await loadSrv(false);$('adm').hidden=false;$('at').value=srvText;$('apill').textContent=bn(parse(srvText).length)+'টি';try{$('ak').value=localStorage.getItem('bagdhara_ak')||''}catch(x){}$('adm').scrollIntoView({behavior:'smooth'})};
+async function openAdm(){await loadSrv(false);$('adm').hidden=false;$('at').value=srvText;$('apill').textContent=bn(parse(srvText).length)+'টি';try{$('ak').value=localStorage.getItem('bagdhara_ak')||''}catch(x){}$('adm').scrollIntoView({behavior:'smooth'})}
+if(location.hash==='#admin')openAdm();
+addEventListener('hashchange',()=>{if(location.hash==='#admin')openAdm()});
 $('at').oninput=()=>{$('apill').textContent=bn(parse($('at').value).length)+'টি'};
-$('acl').onclick=()=>{$('adm').hidden=true};
+$('acl').onclick=()=>{$('adm').hidden=true;history.replaceState(null,'',location.pathname)};
 $('asv').onclick=async()=>{const m=$('amsg');m.style.color='var(--mut)';m.textContent='সেভ হচ্ছে…';
   try{const r=await fetch('/api/bagdhara',{method:'PUT',headers:{'content-type':'application/json','x-admin-key':$('ak').value},body:JSON.stringify({text:$('at').value})});
     if(r.status===401){m.style.color='var(--rd)';m.textContent='পাসওয়ার্ড ভুল।';return}
