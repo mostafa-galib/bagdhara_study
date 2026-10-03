@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>বাগধারা পরীক্ষা</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fff;--soft:#f5f6f8;--tx:#111;--mut:#6b7280;--bd:#e5e7eb;--bl:#2563eb;--blb:#eff4ff;--gr:#16a34a;--grb:#e8f8ee;--rd:#dc2626;--rdb:#fdeceb;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.6 "Noto Sans Bengali",system-ui,sans-serif}
+.w{max-width:640px;margin:0 auto;padding:20px 16px 50px}
+h1{font-size:24px;margin:10px 0 4px;font-weight:700}
+.s{color:var(--mut);margin:0 0 14px;font-size:14px}
+button{font:inherit;cursor:pointer;transition:.2s}
+.b{background:var(--bl);color:#fff;border:0;border-radius:12px;padding:12px 22px;font-weight:600;box-shadow:0 4px 12px rgba(37,99,235,.25)}
+.b:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(37,99,235,.3)}
+.b.g{background:#fff;color:var(--bl);border:1.5px solid var(--bl);box-shadow:none}
+.b.r{background:var(--rd);box-shadow:0 4px 12px rgba(220,38,38,.25)}
+.b:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.err{color:var(--rd);font-size:14px}
+/* setup */
+.hero{background:linear-gradient(135deg,#eff4ff,#fff 60%);border:1px solid var(--bd);border-radius:22px;padding:24px 20px;text-align:center;animation:in .4s ease}
+.logo{width:64px;height:64px;margin:0 auto 10px;border-radius:20px;background:var(--bl);color:#fff;display:grid;place-items:center;font-size:32px;font-weight:700;box-shadow:0 8px 20px rgba(37,99,235,.3)}
+.hero h1{margin:6px 0 2px;font-size:26px}
+.steps{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:14px 0 0}
+.steps span{font-size:13px;background:#fff;border:1px solid var(--bd);border-radius:99px;padding:3px 12px;color:var(--mut)}
+.steps b{color:var(--bl)}
+.panel{margin-top:16px;background:#fff;border:1px solid var(--bd);border-radius:20px;padding:18px;box-shadow:0 8px 30px rgba(17,24,39,.06);animation:in .5s ease}
+.ph{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-weight:600}
+.pill{font-size:13px;font-weight:600;border-radius:99px;padding:3px 12px;background:var(--soft);color:var(--mut);transition:.2s}
+.pill.ok{background:var(--grb);color:var(--gr)}
+textarea{width:100%;min-height:210px;box-sizing:border-box;padding:14px;border:1.5px solid var(--bd);border-radius:14px;background:var(--soft);color:var(--tx);font:inherit;resize:vertical;outline:0;transition:.2s}
+textarea:focus{border-color:var(--bl);background:#fff;box-shadow:0 0 0 4px var(--blb)}
+.hint{font-size:13px;color:var(--mut);margin:8px 0 0}
+.hint code{background:var(--soft);padding:1px 6px;border-radius:6px;color:var(--tx)}
+.st{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:16px;padding-top:16px;border-top:1px dashed var(--bd);flex-wrap:wrap}
+.cnt{display:flex;align-items:center;gap:8px;font-weight:600}
+.cnt button{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--bd);background:#fff;color:var(--tx);font-size:18px;padding:0}
+.cnt button:hover{border-color:var(--bl);color:var(--bl)}
+input[type=number]{width:64px;text-align:center;padding:7px;border:1.5px solid var(--bd);border-radius:10px;background:#fff;color:var(--tx);font:inherit;outline:0}
+input[type=number]:focus{border-color:var(--bl)}
+/* exam */
+.top{display:flex;justify-content:space-between;color:var(--mut);font-size:14px;margin-bottom:8px}
+.bar{height:6px;background:var(--soft);border-radius:9px;overflow:hidden;margin-bottom:20px}
+.bar i{display:block;height:100%;background:var(--bl);border-radius:9px;transition:width .4s ease}
+.card{background:#fff;border:1px solid var(--bd);border-radius:20px;padding:22px 18px;box-shadow:0 8px 30px rgba(17,24,39,.06);animation:in .35s ease}
+@keyframes in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.card h2{font-size:20px;margin:0 0 16px;line-height:1.5;font-weight:600}
+.card h2 b{color:var(--bl)}
+.o{display:flex;gap:12px;align-items:center;width:100%;text-align:left;background:#fff;color:var(--tx);border:1.5px solid var(--bd);border-radius:14px;padding:12px 14px;margin:10px 0}
+.o span{flex:none;width:30px;height:30px;border-radius:50%;background:var(--soft);display:grid;place-items:center;font-weight:600;font-size:14px;transition:.2s}
+.o:not(:disabled):hover{border-color:var(--bl);background:var(--blb);transform:translateX(3px)}
+.o:disabled{cursor:default}
+.o.ok{border-color:var(--gr);background:var(--grb)}.o.ok span{background:var(--gr);color:#fff}
+.o.no{border-color:var(--rd);background:var(--rdb)}.o.no span{background:var(--rd);color:#fff}
+.o.dim{opacity:.55}
+.fb{margin:12px 0 0;font-weight:600;font-size:15px}
+.fb.ok{color:var(--gr)}.fb.no{color:var(--rd)}
+.nx{display:flex;justify-content:flex-end;margin-top:16px}
+/* result */
+.res{text-align:center;padding:16px 0;animation:in .4s ease}
+.ring{width:160px;height:160px;border-radius:50%;margin:8px auto 14px;position:relative}
+.ring div{position:absolute;inset:13px;background:#fff;border-radius:50%;display:grid;place-items:center;font-size:32px;font-weight:700}
+.msg{color:var(--mut);margin:0 0 16px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+.stats div{border-radius:16px;padding:12px 6px;border:1px solid var(--bd)}
+.stats b{display:block;font-size:26px;line-height:1.2}
+.stats small{color:var(--mut)}
+.stats .g{background:var(--grb);border-color:transparent}.stats .g b{color:var(--gr)}
+.stats .r{background:var(--rdb);border-color:transparent}.stats .r b{color:var(--rd)}
+.res .row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.rv{margin-top:28px}
+.rv h3{font-size:18px;margin:0 0 12px;display:flex;align-items:center;gap:8px}
+.rv h3 em{font-style:normal;font-size:13px;background:var(--rdb);color:var(--rd);border-radius:99px;padding:2px 10px}
+.rc{border:1px solid var(--bd);border-left:5px solid var(--rd);border-radius:14px;padding:12px 14px;margin:10px 0;background:#fff;animation:in .4s ease}
+.rc strong{font-size:17px}
+.rc div{font-size:15px;margin-top:4px}
+.rc .m{color:var(--rd)}.rc .c{color:var(--gr);font-weight:600}
+.perfect{text-align:center;margin-top:24px;padding:18px;border-radius:16px;background:var(--grb);color:var(--gr);font-weight:600}
+.ov[hidden]{display:none}
+.ov{position:fixed;inset:0;background:rgba(17,24,39,.45);backdrop-filter:blur(3px);display:grid;place-items:center;padding:20px;z-index:9;animation:fade .25s ease}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.md{background:#fff;border-radius:22px;padding:24px 20px;max-width:380px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.25);animation:in .3s ease}
+.md h3{margin:0 0 6px;font-size:20px}
+.md p{color:var(--mut);margin:0 0 6px;font-size:15px}
+.md .pg{height:8px;background:var(--soft);border-radius:9px;overflow:hidden;margin:14px 0 6px}
+.md .pg i{display:block;height:100%;background:var(--bl);border-radius:9px}
+.md .row2{display:flex;flex-direction:column;gap:10px;margin-top:18px}
+.seg{display:flex;background:var(--soft);border-radius:12px;padding:4px;gap:4px;flex:1}
+.seg button{flex:1;border:0;background:transparent;border-radius:9px;padding:8px 6px;font-size:14px;font-weight:600;color:var(--mut)}
+.seg button.on{background:#fff;color:var(--bl);box-shadow:0 2px 8px rgba(17,24,39,.1)}
+.opt{display:flex;gap:10px;align-items:center;margin-top:14px;flex-wrap:wrap}
+.opt label{font-size:14px;color:var(--mut);min-width:78px}
+.rg{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--mut);flex-wrap:wrap}
+.pz{background:var(--soft);border:0;border-radius:99px;padding:3px 12px;font-size:13px;font-weight:600;color:var(--tx)}
+.pz:hover{background:var(--blb);color:var(--bl)}
+.rsb{margin-top:16px;display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:var(--blb);border:1px solid #cfdcff;border-radius:16px;padding:12px 14px;font-weight:600;animation:in .3s ease}
+.rsb[hidden]{display:none}
+.rsb .b{padding:9px 16px}
+.seg button:disabled{opacity:.4;cursor:not-allowed}
+.srvinfo{background:var(--grb);color:var(--gr);border-radius:14px;padding:14px;font-weight:600;font-size:15px;text-align:center}
+.msgx{font-size:14px;margin-top:8px;font-weight:600}
+.akin{width:100%;box-sizing:border-box;padding:11px;border:1.5px solid var(--bd);border-radius:12px;margin-bottom:10px;font:inherit;outline:0}
+.akin:focus{border-color:var(--bl)}
+</style>
+</head>
+<body>
+<div class="w">
+<div id="setup">
+ <div class="hero"><div class="logo">অ</div><h1>বাগধারা পরীক্ষা</h1><p class="s" style="margin:0">নিজের বইয়ের বাগধারা দিয়ে নিজেকে যাচাই করো</p>
+ <div class="steps"><span><b>১</b> তালিকা পেস্ট</span><span><b>২</b> পরীক্ষা দাও</span><span><b>৩</b> ভুল দেখো</span></div></div>
+ <div class="rsb" id="rsb" hidden></div>
+ <div class="panel">
+  <div class="seg" id="sc" style="margin-bottom:14px"><button data-v="srv" id="svb" disabled>📚 অ্যাপের তালিকা</button><button data-v="own" class="on">✏️ নিজের তালিকা</button></div>
+  <div class="srvinfo" id="srvinfo" hidden></div>
+  <div id="ownbox">
+  <div class="ph"><span>তোমার বাগধারা তালিকা</span><span class="pill" id="pill">০টি</span></div>
+  <textarea id="in" placeholder="অকুল পাথার = ভীষণ বিপদ">অকুল পাথার = ভীষণ বিপদ
+অমাবস্যার চাঁদ = দুর্লভ বস্তু
+আকাশ কুসুম = অসম্ভব কল্পনা
+ঢাকের কাঠি = তোষামোদকারী
+তাসের ঘর = ক্ষণস্থায়ী
+গোঁফ খেজুরে = অলস</textarea>
+  <p class="hint">প্রতি লাইনে একটি, এভাবে: <code>বাগধারা = অর্থ</code> (নমুনা মুছে নিজের তালিকা দাও)</p>
+  </div>
+  <div class="opt"><label>ধরন</label><div class="seg" id="sm"><button data-v="fwd" class="on">বাগধারা → অর্থ</button><button data-v="rev">অর্থ → বাগধারা</button></div></div>
+  <div class="opt"><label>উৎস</label><div class="seg" id="sp"><button data-v="all" class="on">সব</button><button data-v="weak" id="wkb">শুধু দুর্বল</button></div></div>
+  <div class="opt"><label>রেঞ্জ</label><div class="rg">নম্বর <input type="number" id="rf" min="1" placeholder="১"> থেকে <input type="number" id="rt" min="1" placeholder="সব"> পর্যন্ত</div></div>
+  <div class="st">
+   <div class="cnt">প্রশ্ন <button id="mi">−</button><input type="number" id="n" min="1" placeholder="সব"><button id="pl">+</button></div>
+   <button class="b" id="go">পরীক্ষা শুরু →</button>
+  </div>
+  <div id="err" class="err"></div>
+ </div>
+</div>
+<p class="hint" style="text-align:center;margin-top:18px"><a href="#" id="adl" style="color:var(--mut)">⚙ অ্যাডমিন</a></p>
+<div class="panel" id="adm" hidden>
+ <div class="ph"><span>⚙ সার্ভারের তালিকা</span><span class="pill" id="apill">০টি</span></div>
+ <input type="password" class="akin" id="ak" placeholder="অ্যাডমিন পাসওয়ার্ড">
+ <textarea id="at" placeholder="অকুল পাথার = ভীষণ বিপদ"></textarea>
+ <div style="display:flex;gap:10px;margin-top:12px"><button class="b" id="asv">সার্ভারে সেভ করো</button><button class="b g" id="acl">বন্ধ করো</button></div>
+ <div id="amsg" class="msgx"></div>
+</div>
+</div>
+<div id="exam" hidden></div>
+</div>
+<div class="ov" id="ov" hidden></div>
+<script>
+const L=['ক','খ','গ','ঘ'];
+var srvText='',srcm='own';
+function T(){return srcm==='srv'?srvText:$('in').value}
+const $=id=>document.getElementById(id);
+const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const bn=n=>String(n).replace(/\d/g,d=>'০১২৩৪৫৬৭৮৯'[d]);
+function shuf(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+try{const s=localStorage.getItem('bagdhara');if(s)$('in').value=s}catch(e){}
+function parse(t){
+  const out=[];
+  for(let line of t.split(/\r?\n/)){
+    line=line.trim().replace(/^[\d০-৯]+[.)]\s*/,'');
+    const m=line.match(/^(.+?)\s*(?:=|–|—|:|\s-\s)\s*(.+)$/);
+    if(!m)continue;
+    const w=m[1].trim(),a=m[2].trim().replace(/[।.]+$/,'');
+    if(w&&a)out.push({w,a});
+  }
+  return out;
+}
+function live(){
+  const t=T(),k=parse(t).length,all=t.split(/\n/).filter(x=>x.trim()).length;
+  const p=$('pill');p.textContent=bn(k)+'টি'+(all>k?` · ${bn(all-k)}টি পড়া যায়নি`:'');p.className='pill'+(k>=4?' ok':'');$('srvinfo').textContent='📚 অ্যাপে '+bn(parse(srvText).length)+'টি বাগধারা আছে';
+  $('n').max=k;wk();
+}
+$('in').oninput=live;live();
+$('mi').onclick=()=>{$('n').value=Math.max(1,(+$('n').value||parse(T()).length)-1)};
+$('pl').onclick=()=>{const k=parse(T()).length;$('n').value=Math.min(k,(+$('n').value||0)+1)};
+let items=[],qs=[],i=0,score=0,ans=-1,wrong=[],mode='fwd',poolm='all';
+function getStats(){try{return JSON.parse(localStorage.getItem('bagdhara_stats'))||{}}catch(e){return{}}}
+function bump(w,r){const t=getStats();t[w]=Math.max(0,(t[w]||0)+(r?-1:2));try{localStorage.setItem('bagdhara_stats',JSON.stringify(t))}catch(e){}}
+function wk(){const t=getStats(),k=parse(T()).filter(x=>t[x.w]>0).length;$('wkb').textContent='শুধু দুর্বল ('+bn(k)+')'}
+document.querySelectorAll('.seg').forEach(g=>g.onclick=e=>{const t=e.target.closest('button');if(!t)return;g.querySelectorAll('button').forEach(b=>b.classList.toggle('on',b===t));if(g.id==='sm')mode=t.dataset.v;else if(g.id==='sc')setSrc(t.dataset.v);else poolm=t.dataset.v});
+function setSrc(v){srcm=v;document.querySelectorAll('#sc button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));$('ownbox').hidden=v==='srv';$('srvinfo').hidden=v!=='srv';live()}
+function afterSrv(first){const ok=parse(srvText).length>=4;$('svb').disabled=!ok;if(ok&&first)setSrc('srv');else if(!ok&&srcm==='srv')setSrc('own');else live()}
+async function loadSrv(first){try{const r=await fetch('/api/bagdhara',{cache:'no-store'});if(r.ok){const d=await r.json();srvText=d.text||''}}catch(e){}afterSrv(first)}
+loadSrv(true);
+$('adl').onclick=async e=>{e.preventDefault();await loadSrv(false);$('adm').hidden=false;$('at').value=srvText;$('apill').textContent=bn(parse(srvText).length)+'টি';try{$('ak').value=localStorage.getItem('bagdhara_ak')||''}catch(x){}$('adm').scrollIntoView({behavior:'smooth'})};
+$('at').oninput=()=>{$('apill').textContent=bn(parse($('at').value).length)+'টি'};
+$('acl').onclick=()=>{$('adm').hidden=true};
+$('asv').onclick=async()=>{const m=$('amsg');m.style.color='var(--mut)';m.textContent='সেভ হচ্ছে…';
+  try{const r=await fetch('/api/bagdhara',{method:'PUT',headers:{'content-type':'application/json','x-admin-key':$('ak').value},body:JSON.stringify({text:$('at').value})});
+    if(r.status===401){m.style.color='var(--rd)';m.textContent='পাসওয়ার্ড ভুল।';return}
+    if(!r.ok)throw 0;
+    srvText=$('at').value;try{localStorage.setItem('bagdhara_ak',$('ak').value)}catch(x){}
+    m.style.color='var(--gr)';m.textContent='✓ সার্ভারে সেভ হয়েছে।';afterSrv(false)}
+  catch(x){m.style.color='var(--rd)';m.textContent='সেভ হয়নি। সার্ভার চালু আছে কি না দেখো।'}};
+function banner(){const b=$('rsb');if(!qs.length||i>=qs.length||$('setup').hidden){b.hidden=true;return}
+  b.hidden=false;b.innerHTML=`<span>⏸ পরীক্ষা বিরতিতে: ${bn(i+(ans>=0?1:0))} / ${bn(qs.length)} শেষ</span><button class="b" id="rsm">চালিয়ে যাও →</button>`;
+  $('rsm').onclick=()=>{b.hidden=true;$('setup').hidden=true;$('exam').hidden=false;show();scrollTo(0,0)}}
+wk();
+function build(list){
+  const rv=mode==='rev';
+  const uniq=[...new Set(items.map(x=>rv?x.w:x.a))];
+  let pick=list;
+  if(!pick){
+    const f=Math.max(1,+$('rf').value||1),t=Math.min(items.length,+$('rt').value||items.length);
+    let src=items.slice(f-1,t);
+    if(poolm==='weak'){const st=getStats();src=shuf(src.filter(x=>st[x.w]>0)).sort((a,b)=>st[b.w]-st[a.w])}
+    else src=shuf(src);
+    const n=Math.min(parseInt($('n').value)||src.length,src.length);
+    pick=src.slice(0,n);
+  }
+  if(!pick.length){$('err').textContent='এই সিলেকশনে কোনো প্রশ্ন নেই (দুর্বল তালিকা ফাঁকা বা রেঞ্জ ভুল)।';return false}
+  qs=shuf(pick).map(it=>{const c=rv?it.w:it.a;return{w:rv?it.a:it.w,c,rev:rv,k:{w:it.w,a:it.a},opts:shuf([c,...shuf(uniq.filter(a=>a!==c)).slice(0,3)])}});
+  i=0;score=0;ans=-1;wrong=[];save();show();scrollTo(0,0);
+}
+function show(){
+  if(i>=qs.length)return result();
+  const q=qs[i];
+  let h=`<div class="top"><span>প্রশ্ন ${bn(i+1)} / ${bn(qs.length)}</span><button class="pz" id="pz">⏸ বিরতি</button><span>সঠিক: ${bn(score)}</span></div>
+  <div class="bar"><i style="width:${i/qs.length*100}%"></i></div>
+  <div class="card"><h2>${q.rev?`<b>${esc(q.w)}</b> — এই অর্থের বাগধারা কোনটি?`:`<b>${esc(q.w)}</b> বাগধারার অর্থ কী?`}</h2>`;
+  q.opts.forEach((o,j)=>{
+    let c='o';
+    if(ans>=0){if(o===q.c)c+=' ok';else if(j===ans)c+=' no';else c+=' dim'}
+    h+=`<button class="${c}" data-o="${j}" ${ans>=0?'disabled':''}><span>${L[j]}</span>${esc(o)}</button>`;
+  });
+  if(ans>=0){
+    const right=q.opts[ans]===q.c;
+    h+=`<div class="fb ${right?'ok':'no'}">${right?'✓ সঠিক উত্তর!':'✗ ভুল। সঠিক উত্তর: '+esc(q.c)}</div>
+    <div class="nx"><button class="b" id="next">${i+1<qs.length?'পরের প্রশ্ন →':'ফলাফল দেখো'}</button></div>`;
+  }
+  $('exam').innerHTML=h+'</div>';
+}
+function result(){try{localStorage.removeItem(SK)}catch(e){}
+  const tot=qs.length,w=wrong.length,p=Math.round(score/tot*100);
+  const col=p>=70?'var(--gr)':p>=40?'var(--bl)':'var(--rd)';
+  let h=`<div class="res"><div class="ring" style="background:conic-gradient(${col} ${p}%,var(--soft) 0)"><div>${bn(p)}%</div></div>
+  <h1>${p>=70?'চমৎকার!':p>=40?'ভালো, আরেকটু অনুশীলন':'আরও অনুশীলন দরকার'}</h1>
+  <p class="msg">তুমি ${bn(tot)}টির মধ্যে ${bn(score)}টি ঠিক করেছ</p>
+  <div class="stats"><div class="g"><b>${bn(score)}</b><small>সঠিক</small></div><div class="r"><b>${bn(w)}</b><small>ভুল</small></div><div><b>${bn(tot)}</b><small>মোট</small></div></div>
+  <div class="row">${w?'<button class="b r" id="retry">শুধু ভুলগুলো আবার দাও</button>':''}<button class="b" id="again">নতুন শাফল</button><button class="b g" id="back">তালিকা বদলাও</button></div></div>`;
+  if(w){
+    h+=`<div class="rv"><h3>ভুলগুলো পর্যালোচনা <em>${bn(w)}টি</em></h3>`;
+    wrong.forEach(x=>{h+=`<div class="rc"><strong>${esc(x.w)}</strong><div class="m">✗ তোমার উত্তর: ${esc(x.mine)}</div><div class="c">✓ সঠিক উত্তর: ${esc(x.c)}</div></div>`});
+    h+='</div>';
+  }else h+='<div class="perfect">🎉 একটাও ভুল নেই! দারুণ!</div>';
+  $('exam').innerHTML=h;scrollTo(0,0);
+}
+const SK='bagdhara_session';
+function save(){try{localStorage.setItem(SK,JSON.stringify({items,qs,i,score,ans,wrong}))}catch(e){}}
+function checkResume(){
+  let d=null;try{d=JSON.parse(localStorage.getItem(SK))}catch(e){}
+  if(!d||!d.qs||d.i>=d.qs.length||(d.i===0&&d.ans<0))return;
+  const o=$('ov');o.hidden=false;
+  o.innerHTML=`<div class="md"><div style="font-size:34px">⏸️</div><h3>আগের পরীক্ষা অসমাপ্ত আছে</h3>
+  <p>প্রশ্ন ${bn(d.i+(d.ans>=0?1:0))} / ${bn(d.qs.length)} শেষ · সঠিক ${bn(d.score)} · ভুল ${bn(d.wrong.length)}</p>
+  <div class="pg"><i style="width:${(d.i+(d.ans>=0?1:0))/d.qs.length*100}%"></i></div>
+  <div class="row2"><button class="b" id="rs">চালিয়ে যাও →</button><button class="b g" id="fr">নতুন করে শুরু</button></div></div>`;
+  $('rs').onclick=()=>{({items,qs,i,score,ans,wrong}=d);o.hidden=true;$('setup').hidden=true;$('exam').hidden=false;show();scrollTo(0,0)};
+  $('fr').onclick=()=>{try{localStorage.removeItem(SK)}catch(e){}o.hidden=true};
+}
+checkResume();
+$('go').onclick=()=>{
+  items=parse(T());
+  if(new Set(items.map(x=>mode==='rev'?x.w:x.a)).size<4){$('err').textContent='কমপক্ষে ৪টি আলাদা অর্থসহ বাগধারা দরকার।';return}
+  $('err').textContent='';
+  try{localStorage.setItem('bagdhara',$('in').value)}catch(e){}
+  if(build()===false)return;$('setup').hidden=true;$('exam').hidden=false;
+};
+$('exam').onclick=e=>{
+  const t=e.target.closest('button');if(!t)return;
+  if(t.dataset.o!==undefined&&ans<0){
+    ans=+t.dataset.o;const q=qs[i];
+    const ok=q.opts[ans]===q.c,k=q.k||{w:q.w,a:q.c};bump(k.w,ok);if(ok)score++;else wrong.push({w:q.w,c:q.c,mine:q.opts[ans],k});
+    save();show();
+  }else if(t.id==='next'){i++;ans=-1;save();show();scrollTo(0,0)}
+  else if(t.id==='again'){if(build()===false){$('exam').hidden=true;$('setup').hidden=false}}
+  else if(t.id==='retry'){mode=qs[0]&&qs[0].rev?'rev':'fwd';build(wrong.map(x=>x.k))}
+  else if(t.id==='pz'){save();$('exam').hidden=true;$('setup').hidden=false;banner();scrollTo(0,0)}
+  else if(t.id==='back'){$('exam').hidden=true;$('setup').hidden=false;wk();banner();scrollTo(0,0)}
+};
+</script>
+</body>
+</html>
